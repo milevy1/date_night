@@ -6,13 +6,15 @@ class BinarySearchTreeTest < Minitest::Test
 
   def setup
     @tree = BinarySearchTree.new
+    @tree.insert(61, "Bill & Ted's Excellent Adventure")
+    @tree.insert(16, "Johnny English")
+    @tree.insert(92, "Sharknado 3")
+    @tree.insert(50, "Hannibal Buress: Animal Furnace")
   end
 
-  def test_insert_movie_nodes
-    assert_equal 0, @tree.insert(61, "Bill & Ted's Excellent Adventure")
-    assert_equal 1, @tree.insert(16, "Johnny English")
-    assert_equal 1, @tree.insert(92, "Sharknado 3")
-    assert_equal 2, @tree.insert(50, "Hannibal Buress: Animal Furnace")
+  def test_depth_of_returns_tree_depth_of_rating
+    assert_equal 1, @tree.depth_of(92)
+    assert_equal 2, @tree.depth_of(50)
   end
 
 end

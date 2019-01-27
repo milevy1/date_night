@@ -37,4 +37,14 @@ class BinarySearchTree
     end
   end
 
+  def depth_of(rating_query)
+    if @rating == rating_query
+      return @tree_depth
+    elsif rating_query < @rating
+      @left.depth_of(rating_query)
+    elsif rating_query > @rating
+      @right.depth_of(rating_query)
+    end
+  end
+
 end
