@@ -17,4 +17,10 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal 2, @tree.depth_of(50)
   end
 
+  def test_max_returns_highest_score
+    assert_equal {"Sharknado 3"=>92}, @tree.max
+  end
+
+  def test_min_returns_lowest_score
+    assert_equal {"Johnny English"=>16}, @tree.min
 end
