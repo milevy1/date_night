@@ -55,4 +55,12 @@ class BinarySearchTree
     end
   end
 
+  def min
+    if @left.nil?
+      {@movie => @rating}
+    else
+      @left.min
+    end
+  end
+
 end
