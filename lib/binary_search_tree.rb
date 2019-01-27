@@ -27,6 +27,7 @@ class BinarySearchTree
       else
         @left.insert(new_rating, new_movie)
       end
+    # Right insert
     elsif new_rating > @rating
       if @right.nil?
         @right = BinarySearchTree.new(new_rating, new_movie, @tree_depth + 1)
@@ -61,6 +62,12 @@ class BinarySearchTree
     else
       @left.min
     end
+  end
+
+  def sort
+    sorted_array = []
+    
+
   end
 
 end
