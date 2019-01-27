@@ -47,4 +47,12 @@ class BinarySearchTree
     end
   end
 
+  def max
+    if @right.nil?
+      {@movie => @rating}
+    else
+      @right.max
+    end
+  end
+
 end
