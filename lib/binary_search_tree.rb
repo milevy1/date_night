@@ -66,10 +66,6 @@ class BinarySearchTree
     end
   end
 
-  def array_of_elements
-
-  end
-
   def sort
     sorted_array = []
     if !@rating.nil?
