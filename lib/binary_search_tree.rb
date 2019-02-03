@@ -20,7 +20,7 @@ class BinarySearchTree
       return @tree_depth
     # Error check for rating that already exists
     elsif new_rating == @rating
-      puts "Error, that rating is already in use."
+      puts "Error, the rating #{new_rating} for #{new_movie} is already in use."
     # Left insert
     elsif new_rating < @rating
       if @left.nil?
@@ -78,6 +78,17 @@ class BinarySearchTree
       sorted_array << @right.sort if !@right.nil?
     end
     return sorted_array.flatten
+  end
+
+  def load(filename)
+    data = CSV.read(filename)
+    data.each { |rating_movie_data|
+      rating_data = rating_movie_data[0].to_i
+      movie_data = rating_movie_data[1][1..-1]
+      insert(rating_data, movie_data)
+    }
+    # require "pry"; binding.pry
+    return data.length
   end
 
 end
