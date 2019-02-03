@@ -87,4 +87,21 @@ class BinarySearchTree
     return data.length
   end
 
+  def health(level)
+# Score of the node
+# Total number of child nodes including the current node
+# Percentage of all the nodes that are this node or it’s children
+    if level == 0
+      return [[@rating, child_nodes, percent_of_nodes]]
+    end
+  end
+
+  def child_nodes
+    total = 1
+    total += @left.child_nodes if !@left.nil?
+    total += @right.child_nodes if !@right.nil?
+  
+    return total
+  end
+
 end
