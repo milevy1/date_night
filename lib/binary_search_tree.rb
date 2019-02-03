@@ -5,6 +5,7 @@ class BinarySearchTree
   def initialize(rating = nil, movie = nil, tree_depth = 0)
     @rating = rating
     @movie = movie
+    @movie_rating_hash = {@movie=>@rating}
     @tree_depth = tree_depth
     @left = nil
     @right = nil
@@ -15,6 +16,7 @@ class BinarySearchTree
     if @rating.nil?
       @rating = new_rating
       @movie = new_movie
+      @movie_rating_hash = {@movie=>@rating}
       return @tree_depth
     # Error check for rating that already exists
     elsif new_rating == @rating
@@ -64,10 +66,18 @@ class BinarySearchTree
     end
   end
 
+  def array_of_elements
+
+  end
+
   def sort
     sorted_array = []
-    
-
+    if !@rating.nil?
+      sorted_array << @left.sort if !@left.nil?
+      sorted_array << @movie_rating_hash
+      sorted_array << @right.sort if !@right.nil?
+    end
+    return sorted_array.flatten
   end
 
 end
