@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/binary_search_tree'
+require 'csv'
 
 class BinarySearchTreeTest < Minitest::Test
 
@@ -27,6 +28,27 @@ class BinarySearchTreeTest < Minitest::Test
     expected = {"Johnny English"=>16}
 
     assert_equal expected, @tree.min
+  end
+
+  def test_min_works_with_unbalanced_tree
+    @tree.insert(1, "Titanic")
+    expected = {"Titanic"=>1}
+
+    assert_equal expected, @tree.min
+  end
+
+  def test_sort_returns_array_of_movies_in_ascending_ratings
+    expected = [{"Johnny English"=>16},
+                {"Hannibal Buress: Animal Furnace"=>50},
+                {"Bill & Ted's Excellent Adventure"=>61},
+                {"Sharknado 3"=>92}]
+
+    assert_equal expected, @tree.sort
+  end
+
+  def test_load_returns_number_of_movies_inserted
+    tree = BinarySearchTree.new
+    assert_equal 99, tree.load('./data/movies.txt')
   end
 
 end
