@@ -45,4 +45,8 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal expected, @tree.sort
   end
 
+  def test_load_returns_number_of_movies_inserted
+    assert_equal 99, @tree.load('./data/movies.txt')
+  end
+
 end
