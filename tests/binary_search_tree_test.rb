@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/binary_search_tree'
+require 'csv'
 
 class BinarySearchTreeTest < Minitest::Test
 
@@ -46,7 +47,8 @@ class BinarySearchTreeTest < Minitest::Test
   end
 
   def test_load_returns_number_of_movies_inserted
-    assert_equal 99, @tree.load('./data/movies.txt')
+    tree = BinarySearchTree.new
+    assert_equal 99, tree.load('./data/movies.txt')
   end
 
 end
