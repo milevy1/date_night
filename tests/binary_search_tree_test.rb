@@ -52,6 +52,7 @@ class BinarySearchTreeTest < Minitest::Test
   end
 
   def test_health_of_tree
+    skip
     tree = BinarySearchTree.new
     tree.insert(98, "Animals United")
     tree.insert(58, "Armageddon")
@@ -64,6 +65,20 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal [[98, 7, 100]], tree.health(0)
     assert_equal [[58, 6, 85]], tree.health(1)
     assert_equal [[36, 2, 28], [93, 3, 42]], tree.health(2)
+  end
+
+  def test_child_nodes_of_tree
+    tree = BinarySearchTree.new
+    tree.insert(98, "Animals United")
+    tree.insert(58, "Armageddon")
+    tree.insert(36, "Bill & Ted's Bogus Journey")
+    tree.insert(93, "Bill & Ted's Excellent Adventure")
+    tree.insert(86, "Charlie's Angels")
+    tree.insert(38, "Charlie's Country")
+    tree.insert(69, "Collateral Damage")
+
+    assert_equal 7, tree.child_nodes
+    assert_equal 6, tree.left.nodes
   end
 
 end
