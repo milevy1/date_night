@@ -37,7 +37,6 @@ class BinarySearchTreeTest < Minitest::Test
   end
 
   def test_sort_returns_array_of_movies_in_ascending_ratings
-    skip
     expected = [{"Johnny English"=>16},
                 {"Hannibal Buress: Animal Furnace"=>50},
                 {"Bill & Ted's Excellent Adventure"=>61},
