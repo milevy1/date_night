@@ -46,13 +46,19 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal expected, @tree.sort
   end
 
+  # def test_sort_big_data
+  #   tree = BinarySearchTree.new
+  #   tree.load('./data/movies.txt')
+  #
+  #   puts tree.sort
+  # end
+
   def test_load_returns_number_of_movies_inserted
     tree = BinarySearchTree.new
     assert_equal 99, tree.load('./data/movies.txt')
   end
 
   def test_health_of_tree
-    skip
     tree = BinarySearchTree.new
     tree.insert(98, "Animals United")
     tree.insert(58, "Armageddon")
@@ -78,7 +84,36 @@ class BinarySearchTreeTest < Minitest::Test
     tree.insert(69, "Collateral Damage")
 
     assert_equal 7, tree.child_nodes
-    assert_equal 6, tree.left.nodes
+    assert_equal 6, tree.left.child_nodes
+  end
+
+  def test_leaves_returns_count_of_leaves
+    # Leaves are nodes that have no left or right value
+    assert_equal 2, @tree.leaves
+  end
+
+  def test_leaves_for_larger_tree
+    tree = BinarySearchTree.new
+    tree.insert(98, "Animals United")
+    tree.insert(58, "Armageddon")
+    tree.insert(36, "Bill & Ted's Bogus Journey")
+    tree.insert(93, "Bill & Ted's Excellent Adventure")
+    tree.insert(86, "Charlie's Angels")
+    tree.insert(38, "Charlie's Country")
+    tree.insert(69, "Collateral Damage")
+
+    
+  end
+
+  def test_delete_does_not_break_sort
+    skip
+    expected = [{"Johnny English"=>16},
+                {"Bill & Ted's Excellent Adventure"=>61},
+                {"Sharknado 3"=>92}]
+
+    @tree.delete(58)
+
+    assert_equal expected, @tree.sort
   end
 
 end
