@@ -18,8 +18,26 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal 2, @tree.depth_of(50)
   end
 
+  def test_includes_a_rating
+    assert_equal true, @tree.include?(61)
+    assert_equal true, @tree.include?(16)
+    assert_equal true, @tree.include?(92)
+    assert_equal true, @tree.include?(50)
+
+    assert_equal false, @tree.include?(72)
+    assert_equal false, @tree.include?(1)
+    assert_equal false, @tree.include?(93)
+  end
+
   def test_max_returns_highest_score
     expected = {"Sharknado 3"=>92}
+
+    assert_equal expected, @tree.max
+  end
+
+  def test_max_works_with_unbalanced_tree
+    @tree.insert(100, "Gladiator")
+    expected = {"Gladiator"=>100}
 
     assert_equal expected, @tree.max
   end
@@ -93,6 +111,7 @@ class BinarySearchTreeTest < Minitest::Test
   end
 
   def test_leaves_for_larger_tree
+    skip
     tree = BinarySearchTree.new
     tree.insert(98, "Animals United")
     tree.insert(58, "Armageddon")
@@ -102,16 +121,37 @@ class BinarySearchTreeTest < Minitest::Test
     tree.insert(38, "Charlie's Country")
     tree.insert(69, "Collateral Damage")
 
-    
+  end
+
+  def test_height_returns_max_depth_of_tree
+    assert_equal 3, @tree.height
+  end
+
+  def test_height_for_larger_tree
+    tree = BinarySearchTree.new
+    tree.insert(98, "Animals United")
+    tree.insert(58, "Armageddon")
+    tree.insert(36, "Bill & Ted's Bogus Journey")
+    tree.insert(93, "Bill & Ted's Excellent Adventure")
+    tree.insert(86, "Charlie's Angels")
+    tree.insert(38, "Charlie's Country")
+    tree.insert(69, "Collateral Damage")
+        # 1           98
+        # 2       58      nil
+        # 3    36    93
+        # 4  38     86
+        # 5        69
+
+    assert_equal 5, tree.height
   end
 
   def test_delete_does_not_break_sort
-    skip
     expected = [{"Johnny English"=>16},
                 {"Bill & Ted's Excellent Adventure"=>61},
                 {"Sharknado 3"=>92}]
 
-    @tree.delete(58)
+    @tree.delete(50)
+    # require "pry"; binding.pry
 
     assert_equal expected, @tree.sort
   end

@@ -1,12 +1,10 @@
 class BinarySearchTree
-  attr_reader :rating, :movie, :tree_depth
+  attr_reader :rating, :movie
   attr_accessor :left, :right
 
-  def initialize(rating = nil, movie = nil, tree_depth = 0, head_node = "HEAD")
+  def initialize(rating = nil, movie = nil, head_node = "HEAD")
     @rating = rating
     @movie = movie
-    @movie_rating_hash = {@movie=>@rating}
-    @tree_depth = tree_depth
     @left = nil
     @right = nil
     @head_node = head_node
@@ -17,37 +15,48 @@ class BinarySearchTree
     if @rating.nil?
       @rating = new_rating
       @movie = new_movie
-      @movie_rating_hash = {@movie=>@rating}
-      return @tree_depth
+      return 0
     # Error check for rating that already exists
     elsif new_rating == @rating
       puts "Error, the rating #{new_rating} for #{new_movie} is already in use."
     # Left insert
     elsif new_rating < @rating
       if @left.nil?
-        @left = BinarySearchTree.new(new_rating, new_movie, @tree_depth + 1, self)
-        return @tree_depth + 1
+        @left = BinarySearchTree.new(new_rating, new_movie, self)
+        return 1
       else
-        @left.insert(new_rating, new_movie)
+        return 1 + @left.insert(new_rating, new_movie)
       end
     # Right insert
     elsif new_rating > @rating
       if @right.nil?
-        @right = BinarySearchTree.new(new_rating, new_movie, @tree_depth + 1, self)
-        return @tree_depth + 1
+        @right = BinarySearchTree.new(new_rating, new_movie, self)
+        return 1
       else
-        @right.insert(new_rating, new_movie)
+        return 1 + @right.insert(new_rating, new_movie)
       end
     end
   end
 
-  def depth_of(rating_query)
-    if @rating == rating_query
-      return @tree_depth
-    elsif rating_query < @rating
-      @left.depth_of(rating_query)
-    elsif rating_query > @rating
-      @right.depth_of(rating_query)
+  def include?(rating)
+    return true if @rating == rating
+
+    if !@left.nil? && rating < @rating
+      return @left.include?(rating)
+    elsif !@right.nil? && rating > @rating
+      return @right.include?(rating)
+    end
+    # If it does not find it, return false
+    return false
+  end
+
+  def depth_of(rating)
+    if @rating == rating
+      return 0
+    elsif rating < @rating
+      return 1 + @left.depth_of(rating)
+    elsif rating > @rating
+      return 1 + @right.depth_of(rating)
     end
   end
 
@@ -67,16 +76,6 @@ class BinarySearchTree
     end
   end
 
-  # def sort
-  #   sorted_array = []
-  #   if !@rating.nil?
-  #     sorted_array << @left.sort if !@left.nil?
-  #     sorted_array << @movie_rating_hash
-  #     sorted_array << @right.sort if !@right.nil?
-  #   end
-  #   return sorted_array.flatten
-  # end
-
   def sort
     if !@left.nil?
       left = @left.sort
@@ -90,7 +89,7 @@ class BinarySearchTree
       right = []
     end
 
-    return left + [@movie_rating_hash] + right
+    return left + [{@movie => @rating}] + right
   end
 
   def load(filename)
@@ -107,7 +106,7 @@ class BinarySearchTree
   def health(level, total_nodes = child_nodes)
     health_array = []
 
-    # total_nodes = child_nodes if @tree_depth == 0
+    # total_nodes = child_nodes if tree_depth == 0
     if level == 0
       health_array << [@rating, child_nodes, (child_nodes / total_nodes.to_f * 100).floor]
 
@@ -144,18 +143,68 @@ class BinarySearchTree
 
   end
 
-  def delete(rating)
-    current_node = self
+  def height(depth = 0)
+    return 0 if @rating.nil?
 
-    while current_node.rating != rating
-      if rating < current_node.rating
-        #do something to left
-        current_node = current_node.left
-      else
-        current_node = current_node.right
-      end
+    if !@left.nil?
+      lheight = @left.height
+    else
+      lheight = 0
+    end
+
+    if !@right.nil?
+      rheight = @right.height
+    else
+      rheight = 0
+    end
+
+    if lheight > rheight
+      return lheight + 1
+    else
+      return rheight + 1
     end
 
   end
+
+  def delete(rating)
+    if !include?(rating)
+      puts "Rating does not exist"
+      return rating
+    end
+
+    if rating == @rating
+      @rating = remove(rating)
+    elsif rating < @rating
+      @left = delete(rating)
+    else
+      @right = delete(rating)
+    end
+    
+
+  end
+
+  def delete_node(tnode,node)
+     if tnode == node
+        tnode = remove(tnode)
+     elsif node < tnode
+        tnode.left = delete_node(tnode.left,node)
+     else
+        tnode.right = delete_node(tnode.right,node)
+     end
+    tnode
+ end
+
+ def remove(node)
+   if node.left.nil? && node.right.nil?
+      node = nil
+   elsif !node.left.nil? && node.right.nil?
+      node = node.left
+   elsif node.left.nil? && !node.right.nil?
+      node = node.right
+   else
+      node = replace_parent(node)
+   end
+  node
+ end
 
 end
